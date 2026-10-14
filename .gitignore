@@ -42,3 +42,6 @@ htmlcov/
 # DaisyUI (no usado, el binario standalone no lo resuelve)
 theme/static_src/src/daisyui.mjs
 theme/static_src/src/daisyui-theme.mjs
+
+# Backups locales
+.backup-*/
