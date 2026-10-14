@@ -1,44 +1,37 @@
 {% load static %}
 <aside class="hidden lg:flex lg:fixed lg:inset-y-0 lg:left-0 lg:w-60 flex-col border-r border-slate-800 bg-slate-900/40 p-6">
-  <a href="{% url 'core:home' %}" class="font-mono text-lg font-semibold text-emerald-400">
-    &gt; codigoycompas
-  </a>
-  <div class="avatar-wrapper relative mx-auto mb-6" style="width:96px;height:96px;">
-    <svg class="avatar-ring absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+
+  <div class="avatar-wrapper relative mx-auto mb-4" style="width:96px;height:96px;">
+    <svg class="avatar-ring absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
       <defs>
-        <linearGradient id="avatar-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="avatar-grad-side" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#10b981"/>
           <stop offset="100%" stop-color="#059669"/>
         </linearGradient>
       </defs>
-      <circle cx="50" cy="50" r="48" fill="none" stroke="url(#avatar-grad)"
+      <circle cx="50" cy="50" r="48" fill="none" stroke="url(#avatar-grad-side)"
               stroke-width="2" stroke-linecap="round"
               class="avatar-ring-circle"
               stroke-dasharray="301.6" stroke-dashoffset="301.6"
               transform="rotate(-90 50 50)"/>
     </svg>
-    <picture>
-      <source srcset="/static/img/avatar.webp 1x, /static/img/avatar@2x.webp 2x" type="image/webp">
-      <img src="/static/img/avatar.webp"
-           alt="Avatar"
-           width="96"
-           height="96"
-           loading="eager"
-           decoding="async"
-           class="avatar-img absolute inset-0 w-full h-full rounded-full object-cover"
-           style="padding:8px;box-sizing:border-box;"
-      />
-    </picture>
+    <img src="/static/img/avatar.webp"
+         srcset="/static/img/avatar.webp 1x, /static/img/avatar@2x.webp 2x"
+         alt="Avatar de Pedro M. Pérez H."
+         width="96" height="96"
+         class="avatar-img absolute inset-0 w-full h-full rounded-full object-cover"
+         style="padding:8px;box-sizing:border-box;"/>
   </div>
 
-  <p class="mt-2 text-xs text-slate-500">Pedro M. Pérez H.</p>
-  <nav class="mt-10 flex flex-col gap-1 text-sm">
-    <a href="{% url 'core:home' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Inicio</a>
-    <a href="{% url 'blog:list' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Blog</a>
-    <a href="{% url 'projects:list' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Proyectos</a>
-    <a href="{% url 'core:about' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Sobre mí</a>
-    <a href="{% url 'core:contact' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Contacto</a>
-  </nav>
+  <a href="{% url 'core:home' %}" class="font-mono text-lg font-semibold text-emerald-400 text-center">
+    &gt; codigoycompas
+  </a>
+  <p class="mt-2 text-xs text-slate-500 text-center">Pedro M. Pérez H.</p>
+
+  <div class="mt-10">
+    {% include "partials/nav-links.html" %}
+  </div>
+
   <div class="mt-auto flex items-center justify-between text-xs text-slate-500">
     <button id="theme-toggle" aria-label="Cambiar tema" class="rounded-md border border-slate-700 px-2 py-1 hover:text-emerald-400">🌓</button>
     <a href="https://github.com/pedromph23" target="_blank" class="hover:text-emerald-400">GitHub ↗</a>

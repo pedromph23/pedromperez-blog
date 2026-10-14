@@ -47,8 +47,80 @@
 </head>
 <body class="font-sans bg-slate-950 text-slate-200 antialiased min-h-dvh">
   <div class="lg:pl-60">
+
+    {# ================= TOPBAR MÓVIL ================= #}
+    <header class="mobile-topbar lg:hidden fixed top-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-800 h-14 flex items-center justify-between px-4">
+      <a href="{% url 'core:home' %}" class="font-mono text-base font-semibold text-emerald-400">
+        &gt; codigoycompas
+      </a>
+      <button id="mobile-menu-toggle"
+              aria-label="Abrir menú"
+              aria-controls="mobile-drawer"
+              aria-expanded="false"
+              class="p-2 rounded-md text-slate-300 hover:text-emerald-400 hover:bg-slate-800 transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </header>
+
+    {# ================= OVERLAY ================= #}
+    <div id="mobile-overlay"
+         class="mobile-overlay fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"
+         aria-hidden="true"></div>
+
+    {# ================= DRAWER MÓVIL ================= #}
+    <aside id="mobile-drawer"
+           class="mobile-drawer fixed top-0 left-0 z-50 h-full w-72 max-w-[85vw] bg-slate-950 border-r border-slate-800 -translate-x-full transition-transform duration-300 ease-out lg:hidden flex flex-col p-6 overflow-y-auto"
+           role="dialog"
+           aria-modal="true"
+           aria-label="Menú de navegación">
+
+      <div class="flex items-center justify-between mb-6">
+        <span class="font-mono text-base font-semibold text-emerald-400">&gt; codigoycompas</span>
+        <button id="mobile-menu-close"
+                aria-label="Cerrar menú"
+                class="p-2 rounded-md text-slate-400 hover:text-emerald-400 hover:bg-slate-800 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="avatar-wrapper relative mx-auto mb-4" style="width:80px;height:80px;">
+        <svg class="avatar-ring absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="avatar-grad-mobile" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#059669"/>
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="50" r="48" fill="none" stroke="url(#avatar-grad-mobile)"
+                  stroke-width="2" stroke-linecap="round"
+                  class="avatar-ring-circle"
+                  stroke-dasharray="301.6" stroke-dashoffset="301.6"
+                  transform="rotate(-90 50 50)"/>
+        </svg>
+        <img src="/static/img/avatar.webp"
+             srcset="/static/img/avatar.webp 1x, /static/img/avatar@2x.webp 2x"
+             alt="Avatar de Pedro M. Pérez H."
+             width="80" height="80"
+             class="avatar-img absolute inset-0 w-full h-full rounded-full object-cover"
+             style="padding:6px;box-sizing:border-box;"/>
+      </div>
+
+      <p class="text-xs text-slate-500 text-center mb-6">Pedro M. Pérez H.</p>
+
+      {% include "partials/nav-links.html" %}
+
+      <div class="mt-auto pt-6 flex items-center justify-between text-xs text-slate-500 border-t border-slate-800">
+        <a href="https://github.com/pedromph23" target="_blank" class="hover:text-emerald-400">GitHub ↗</a>
+        <span>© {% now "Y" %}</span>
+      </div>
+    </aside>
+
     {% include "partials/sidebar.html" %}
-    <main class="mx-auto max-w-3xl px-6 py-10">
+    <main class="mx-auto max-w-3xl px-6 pt-20 pb-10 lg:py-10">
       {% if messages %}
         <div class="mb-6 space-y-2">
           {% for message in messages %}
@@ -65,6 +137,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="{% static 'js/animations.js' %}"></script>
+  <script src="{% static 'js/navigation.js' %}"></script>
 
   {# --- Dark mode toggle + anti-FOUC --- #}
   <script>
