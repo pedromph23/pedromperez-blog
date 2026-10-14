@@ -5,9 +5,9 @@ on:
     branches: [main]
     paths:
       - 'templates/**'
-      - 'blog/**'
-      - 'projects/**'
-      - 'core/**'
+      - 'blog/**/*.py'
+      - 'projects/**/*.py'
+      - 'core/**/*.py'
       - 'theme/static_src/**'
   workflow_dispatch:
 
@@ -25,20 +25,19 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: |
-          pip install django-tailwind "django>=5.1" python-dotenv
+        run: pip install "django>=6.1,<6.2" "django-tailwind>=4.5" python-dotenv
 
       - name: Install Tailwind binary
         run: python manage.py tailwind install
         env:
-          DJANGO_SECRET_KEY: ci-only-not-used
+          DJANGO_SECRET_KEY: ci-not-used
           DJANGO_DEBUG: 'True'
           USE_SUPABASE: '0'
 
       - name: Build Tailwind CSS
         run: python manage.py tailwind build
         env:
-          DJANGO_SECRET_KEY: ci-only-not-used
+          DJANGO_SECRET_KEY: ci-not-used
           DJANGO_DEBUG: 'True'
           USE_SUPABASE: '0'
 

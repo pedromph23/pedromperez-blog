@@ -46,4 +46,3 @@ theme/static_src/src/daisyui-theme.mjs
 .backup-*/
 package-lock.json
 package.json
-.build_done
