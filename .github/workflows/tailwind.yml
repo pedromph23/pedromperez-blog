@@ -1,0 +1,55 @@
+name: Build Tailwind CSS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'templates/**'
+      - 'blog/**'
+      - 'projects/**'
+      - 'core/**'
+      - 'theme/static_src/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install django-tailwind "django>=5.1" python-dotenv
+
+      - name: Install Tailwind binary
+        run: python manage.py tailwind install
+        env:
+          DJANGO_SECRET_KEY: ci-only-not-used
+          DJANGO_DEBUG: 'True'
+          USE_SUPABASE: '0'
+
+      - name: Build Tailwind CSS
+        run: python manage.py tailwind build
+        env:
+          DJANGO_SECRET_KEY: ci-only-not-used
+          DJANGO_DEBUG: 'True'
+          USE_SUPABASE: '0'
+
+      - name: Commit compiled CSS
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f theme/static/css/dist/
+          if git diff --cached --quiet; then
+            echo "Sin cambios en el CSS compilado"
+          else
+            git commit -m "chore(css): auto-compilar Tailwind CSS [skip ci]"
+            git push
+          fi
