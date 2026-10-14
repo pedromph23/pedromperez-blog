@@ -7,7 +7,6 @@ __pycache__/
 staticfiles/
 media/
 node_modules/
-theme/static/css/dist/
 .DS_Store
 
 # Tailwind (django-tailwind genera estos durante dev)
@@ -45,3 +44,5 @@ theme/static_src/src/daisyui-theme.mjs
 
 # Backups locales
 .backup-*/
+package-lock.json
+package.json
