@@ -1,24 +1,25 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "pip install -r requirements.txt",
-  "buildCommand": "bash vercel-build.sh",
-  "functions": {
-    "api/index.py": {
-      "includeFiles": [
-        "config/**",
-        "blog/**",
-        "projects/**",
-        "core/**",
-        "templates/**",
-        "theme/**",
-        "static/**",
-        "staticfiles/**",
-        "manage.py",
-        "requirements.txt"
-      ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": [
+          "config/**",
+          "blog/**",
+          "projects/**",
+          "core/**",
+          "templates/**",
+          "theme/**",
+          "static/**",
+          "manage.py",
+          "requirements.txt"
+        ]
+      }
     }
-  },
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/api/index" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "api/index.py" }
   ]
 }

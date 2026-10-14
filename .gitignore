@@ -47,3 +47,4 @@ theme/static_src/src/daisyui-theme.mjs
 package-lock.json
 package.json
 theme/static/css/dist/
+.build_done
