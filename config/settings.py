@@ -118,37 +118,20 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 if DEBUG:
-    # Desarrollo y tests: storage simple, sin manifest
+    # Desarrollo: storage simple, sin manifest
     STORAGES = {
         "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
         "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
     }
 else:
-    # Producción: hashing + compresión con WhiteNoise
+    # Producción (Vercel serverless): CompressedStaticFilesStorage no necesita manifest
     STORAGES = {
         "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-        "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+        "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
     }
 
-# --- Tailwind -------------------------------------------------------------
-TAILWIND_APP_NAME = "theme"
-INTERNAL_IPS = ["127.0.0.1"]
-
-# --- Defaults -------------------------------------------------------------
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# --- Supabase (API, opcional por ahora) -----------------------------------
-SUPABASE_URL = os.getenv("SUPABASE_URL", "")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
-SUPABASE_SECRET_KEY = os.getenv("SUPABASE_SECRET_KEY", "")
-SUPABASE_BUCKET_NAME = os.getenv("SUPABASE_BUCKET_NAME", "blog-assets")
-
-# --- Mensajes -------------------------------------------------------------
-from django.contrib.messages import constants as messages  # noqa: E402
-MESSAGE_TAGS = {
-    messages.DEBUG: "bg-slate-700 text-white",
-    messages.INFO: "bg-blue-900 text-white",
-    messages.SUCCESS: "bg-emerald-700 text-white",
-    messages.WARNING: "bg-amber-700 text-white",
-    messages.ERROR: "bg-red-800 text-white",
-}
+# Whitenoise: buscar archivos en runtime vía finders (STATICFILES_DIRS + app dirs)
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = DEBUG
+WHITENOISE_MANIFEST_STRICT = False
+WHITENOISE_ALLOW_ALL_ORIGINS = True
