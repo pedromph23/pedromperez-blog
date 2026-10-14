@@ -3,13 +3,23 @@
   "builds": [
     {
       "src": "api/index.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": [
+          "config/**",
+          "blog/**",
+          "projects/**",
+          "core/**",
+          "templates/**",
+          "theme/**",
+          "static/**",
+          "manage.py",
+          "requirements.txt"
+        ]
+      }
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "api/index.py"
-    }
+    { "src": "/(.*)", "dest": "api/index.py" }
   ]
 }
