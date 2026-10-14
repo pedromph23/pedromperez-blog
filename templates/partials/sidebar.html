@@ -3,25 +3,33 @@
   <a href="{% url 'core:home' %}" class="font-mono text-lg font-semibold text-emerald-400">
     &gt; codigoycompas
   </a>
-  <div class="avatar-wrapper relative inline-flex items-center justify-center mx-auto mb-4" style="width:96px;height:96px;">
-  <svg class="avatar-ring absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-    <defs>
-      <linearGradient id="avatar-grad-side" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#10b981"/>
-        <stop offset="100%" stop-color="#059669"/>
-      </linearGradient>
-    </defs>
-    <circle cx="50" cy="50" r="47" fill="none" stroke="url(#avatar-grad-side)"
-            stroke-width="2" stroke-linecap="round"
-            class="avatar-ring-circle"
-            stroke-dasharray="295.31" stroke-dashoffset="295.31"
-            transform="rotate(-90 50 50)"/>
-  </svg>
-  <img src="{% static 'img/avatar.webp' %}"
-       srcset="{% static 'img/avatar.webp' %} 1x, {% static 'img/avatar@2x.webp' %} 2x"
-       alt="Pedro M. Pérez H."
-       class="avatar-img relative w-20 h-20 rounded-full object-cover border-4 border-slate-900"/>
-</div>
+  <div class="avatar-wrapper relative mx-auto mb-6" style="width:96px;height:96px;">
+    <svg class="avatar-ring absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="avatar-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#10b981"/>
+          <stop offset="100%" stop-color="#059669"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="48" fill="none" stroke="url(#avatar-grad)"
+              stroke-width="2" stroke-linecap="round"
+              class="avatar-ring-circle"
+              stroke-dasharray="301.6" stroke-dashoffset="301.6"
+              transform="rotate(-90 50 50)"/>
+    </svg>
+    <picture>
+      <source srcset="/static/img/avatar.webp 1x, /static/img/avatar@2x.webp 2x" type="image/webp">
+      <img src="/static/img/avatar.webp"
+           alt="Avatar"
+           width="96"
+           height="96"
+           loading="eager"
+           decoding="async"
+           class="avatar-img absolute inset-0 w-full h-full rounded-full object-cover"
+           style="padding:8px;box-sizing:border-box;"
+      />
+    </picture>
+  </div>
 
   <p class="mt-2 text-xs text-slate-500">Pedro M. Pérez H.</p>
   <nav class="mt-10 flex flex-col gap-1 text-sm">

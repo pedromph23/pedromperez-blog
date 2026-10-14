@@ -3,27 +3,35 @@
 {% block title %}Sobre mí · Código y Compás{% endblock %}
 
 {% block content %}
-<div class="avatar-wrapper-about relative inline-flex items-center justify-center mb-6" style="width:120px;height:120px;">
-  <svg class="avatar-ring-about absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-    <defs>
-      <linearGradient id="avatar-grad-about" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#10b981"/>
-        <stop offset="100%" stop-color="#059669"/>
-      </linearGradient>
-    </defs>
-    <circle cx="50" cy="50" r="47" fill="none" stroke="url(#avatar-grad-about)"
-            stroke-width="2" stroke-linecap="round"
-            class="avatar-ring-about-circle"
-            stroke-dasharray="295.31" stroke-dashoffset="295.31"
-            transform="rotate(-90 50 50)"/>
-  </svg>
-  <img src="{% static 'img/avatar.webp' %}"
-       srcset="{% static 'img/avatar.webp' %} 1x, {% static 'img/avatar@2x.webp' %} 2x"
-       alt="Pedro M. Pérez H."
-       class="avatar-img-about relative w-24 h-24 rounded-full object-cover border-4 border-slate-900"/>
-</div>
+<div class="avatar-wrapper-about relative mx-auto mb-6" style="width:120px;height:120px;">
+    <svg class="avatar-ring-about absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="avatar-grad_about" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#10b981"/>
+          <stop offset="100%" stop-color="#059669"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="48" fill="none" stroke="url(#avatar-grad_about)"
+              stroke-width="2" stroke-linecap="round"
+              class="avatar-ring-about-circle"
+              stroke-dasharray="301.6" stroke-dashoffset="301.6"
+              transform="rotate(-90 50 50)"/>
+    </svg>
+    <picture>
+      <source srcset="/static/img/avatar.webp 1x, /static/img/avatar@2x.webp 2x" type="image/webp">
+      <img src="/static/img/avatar.webp"
+           alt="Avatar"
+           width="120"
+           height="120"
+           loading="eager"
+           decoding="async"
+           class="avatar-img-about absolute inset-0 w-full h-full rounded-full object-cover"
+           style="padding:8px;box-sizing:border-box;"
+      />
+    </picture>
+  </div>
 
-<h1 class="hero-title text-3xl font-bold">Sobre mí</h1>
+  <h1 class="hero-title text-3xl font-bold">Sobre mí</h1>
 <div class="animate-card prose prose-invert mt-6 max-w-none">
   <p>Soy <strong>Pedro Manuel Pérez Herrera</strong>, programador Full Stack en la <strong>Fundación Musical Simón Bolívar (El Sistema)</strong>, Venezuela. Empecé a programar profesionalmente en 2025 y estoy a punto de graduarme como <strong>Técnico Superior en Informática</strong>.</p>
   <p>Trabajo a diario con <strong>HTML, CSS, JavaScript, Tailwind CSS, PHP, Laravel, Symfony, Django y Python</strong>, y manejo bases de datos relacionales. Complemento mi perfil con <strong>soporte técnico, administración de servidores (Windows y Linux) y redes</strong> (curso Cisco, módulo I).</p>
