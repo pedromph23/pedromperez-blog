@@ -135,3 +135,9 @@ WHITENOISE_USE_FINDERS = True
 WHITENOISE_AUTOREFRESH = DEBUG
 WHITENOISE_MANIFEST_STRICT = False
 WHITENOISE_ALLOW_ALL_ORIGINS = True
+WHITENOISE_ROOT = BASE_DIR / "staticfiles"  # directorio post-collectstatic
+
+# --- Tailwind -------------------------------------------------------------
+TAILWIND_APP_NAME = "theme"
+INTERNAL_IPS = ["127.0.0.1"]
+
