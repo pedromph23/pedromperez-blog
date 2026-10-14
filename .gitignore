@@ -1,0 +1,44 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.sqlite3
+staticfiles/
+media/
+node_modules/
+theme/static/css/dist/
+.DS_Store
+
+# Tailwind (django-tailwind genera estos durante dev)
+tailwind.pid
+tailwind.log
+Procfile.tailwind
+
+# Django local
+db.sqlite3
+db.sqlite3-journal
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Cobertura de tests
+.coverage
+htmlcov/
+.pytest_cache/
+
+# DaisyUI (no usado, el binario standalone no lo resuelve)
+theme/static_src/src/daisyui.mjs
+theme/static_src/src/daisyui-theme.mjs

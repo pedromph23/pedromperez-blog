@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Dónde buscar las clases Tailwind */
+@source "../../../templates/**/*.html";
+@source "../../../blog/**/*.py";
+@source "../../../projects/**/*.py";
+@source "../../../core/**/*.py";
+@source "../../../theme/templates/**/*.html";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}

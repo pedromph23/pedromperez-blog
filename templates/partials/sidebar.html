@@ -1,0 +1,17 @@
+<aside class="hidden lg:flex lg:fixed lg:inset-y-0 lg:left-0 lg:w-60 flex-col border-r border-slate-800 bg-slate-900/40 p-6">
+  <a href="{% url 'core:home' %}" class="font-mono text-lg font-semibold text-emerald-400">
+    &gt; codigoycompas
+  </a>
+  <p class="mt-2 text-xs text-slate-500">Pedro M. Pérez H.</p>
+  <nav class="mt-10 flex flex-col gap-1 text-sm">
+    <a href="{% url 'core:home' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Inicio</a>
+    <a href="{% url 'blog:list' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Blog</a>
+    <a href="{% url 'projects:list' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Proyectos</a>
+    <a href="{% url 'core:about' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Sobre mí</a>
+    <a href="{% url 'core:contact' %}" class="rounded-md px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition">Contacto</a>
+  </nav>
+  <div class="mt-auto flex items-center justify-between text-xs text-slate-500">
+    <button id="theme-toggle" aria-label="Cambiar tema" class="rounded-md border border-slate-700 px-2 py-1 hover:text-emerald-400">🌓</button>
+    <a href="https://github.com/pedromph23" target="_blank" class="hover:text-emerald-400">GitHub ↗</a>
+  </div>
+</aside>

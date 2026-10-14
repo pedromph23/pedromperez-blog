@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Contacto · Código y Compás{% endblock %}
+
+{% block content %}
+<h1 class="hero-title text-3xl font-bold">Contacto</h1>
+<p class="hero-subtitle mt-2 text-slate-400">Escríbeme y te responderé lo antes posible.</p>
+
+<form method="post" class="animate-card mt-8 space-y-4">
+  {% csrf_token %}
+  <input name="name" placeholder="Tu nombre" required class="w-full rounded-md border border-slate-700 bg-slate-900/40 px-4 py-3 text-sm focus:border-emerald-400 focus:outline-none">
+  <input name="email" type="email" placeholder="tu@email.com" required class="w-full rounded-md border border-slate-700 bg-slate-900/40 px-4 py-3 text-sm focus:border-emerald-400 focus:outline-none">
+  <input name="subject" placeholder="Asunto" class="w-full rounded-md border border-slate-700 bg-slate-900/40 px-4 py-3 text-sm focus:border-emerald-400 focus:outline-none">
+  <textarea name="body" rows="6" placeholder="Mensaje..." required class="w-full rounded-md border border-slate-700 bg-slate-900/40 px-4 py-3 text-sm focus:border-emerald-400 focus:outline-none"></textarea>
+  <button class="rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-medium text-slate-950 hover:bg-emerald-600">Enviar mensaje</button>
+</form>
+{% endblock %}
