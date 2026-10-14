@@ -17,6 +17,10 @@ ALLOWED_HOSTS = os.getenv(
     "localhost,127.0.0.1,.vercel.app"
 ).split(",")
 
+
+# Permitir el host que usa el cliente de test de Django
+if DEBUG and "testserver" not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append("testserver")
 # --- Aplicaciones ---------------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",

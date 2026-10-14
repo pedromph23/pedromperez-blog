@@ -4,18 +4,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Código y Compás{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}Blog de Pedro Manuel Pérez Herrera, programador Full Stack venezolano.{% endblock %}">
+
+  {# --- SEO básico --- #}
+  <title>{% block title %}Código y Compás — Blog de Pedro M. Pérez H.{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Blog de Pedro Manuel Pérez Herrera, programador Full Stack venezolano. Desarrollo web, backend, servidores y proyectos open source.{% endblock %}">
+  <meta name="author" content="Pedro Manuel Pérez Herrera">
+  <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+
+  {# --- Open Graph --- #}
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:site_name" content="Código y Compás">
+  <meta property="og:locale" content="es_VE">
+  <meta property="og:title" content="{% block og_title %}{% block og_title_inner %}Código y Compás — Blog de Pedro M. Pérez H.{% endblock %}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Blog de Pedro Manuel Pérez Herrera, programador Full Stack venezolano.{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:image" content="{% block og_image %}{% static 'img/og-default.png' %}{% endblock %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Código y Compás — Programar también tiene ritmo">
+
+  {# --- Twitter Card --- #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@pedromph23">
+  <meta name="twitter:creator" content="@pedromph23">
+  <meta name="twitter:title" content="{% block tw_title %}Código y Compás — Blog de Pedro M. Pérez H.{% endblock %}">
+  <meta name="twitter:description" content="{% block tw_description %}Blog de Pedro Manuel Pérez Herrera, programador Full Stack venezolano.{% endblock %}">
+  <meta name="twitter:image" content="{% block tw_image %}{% static 'img/og-default.png' %}{% endblock %}">
+
+  {# --- RSS --- #}
+  <link rel="alternate" type="application/rss+xml" title="Código y Compás RSS" href="{% url 'rss_feed' %}">
+
+  {# --- Favicon (temporal, sin imagen) --- #}
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+
+  {# --- Fuentes --- #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  {% tailwind_css %}
-</head>
- <!-- GSAP + ScrollTrigger -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-  <script src="{% static 'js/animations.js' %}"></script>
 
+  {% tailwind_css %}
+  {% include "seo/_jsonld.html" %}
+</head>
 <body class="font-sans bg-slate-950 text-slate-200 antialiased min-h-dvh">
   <div class="lg:pl-60">
     {% include "partials/sidebar.html" %}
@@ -31,6 +60,13 @@
     </main>
     {% include "partials/footer.html" %}
   </div>
+
+  {# --- GSAP + ScrollTrigger --- #}
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="{% static 'js/animations.js' %}"></script>
+
+  {# --- Dark mode toggle + anti-FOUC --- #}
   <script>
     const btn = document.getElementById('theme-toggle');
     if (btn) {
