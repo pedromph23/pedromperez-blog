@@ -1,7 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <section class="hero-section mb-16">
+  <div class="avatar-wrapper-hero relative inline-flex items-center justify-center mb-6" style="width:128px;height:128px;">
+    <svg class="avatar-ring-hero absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+      <defs>
+        <linearGradient id="avatar-grad-hero" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#10b981"/>
+          <stop offset="100%" stop-color="#059669"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="47" fill="none" stroke="url(#avatar-grad-hero)"
+              stroke-width="2" stroke-linecap="round"
+              class="avatar-ring-hero-circle"
+              stroke-dasharray="295.31" stroke-dashoffset="295.31"
+              transform="rotate(-90 50 50)"/>
+    </svg>
+    <img src="{% static 'img/avatar.webp' %}"
+         srcset="{% static 'img/avatar.webp' %} 1x, {% static 'img/avatar@2x.webp' %} 2x"
+         alt="Pedro M. Pérez H."
+         class="avatar-img-hero relative w-28 h-28 rounded-full object-cover border-4 border-slate-900"/>
+  </div>
+
   <p class="hero-kicker font-mono text-sm text-emerald-400">// Full Stack Developer</p>
   <h1 class="hero-title mt-3 text-4xl font-bold leading-tight sm:text-5xl">
     Hola, soy <span class="text-emerald-400">Pedro</span>.<br>

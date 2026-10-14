@@ -61,5 +61,31 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.from(logo, { x: -30, opacity: 0, duration: 0.6, delay: 0.1, ease: "power2.out" });
   }
 
+  
+  // ---------- 6. Avatar con anillo animado ----------
+  const avatarSet = [
+    { ring: ".avatar-ring",       circle: ".avatar-ring-circle",       img: ".avatar-img" },
+    { ring: ".avatar-ring-hero",  circle: ".avatar-ring-hero-circle",  img: ".avatar-img-hero" },
+    { ring: ".avatar-ring-about", circle: ".avatar-ring-about-circle", img: ".avatar-img-about" },
+  ];
+
+  avatarSet.forEach(({ ring, circle, img }) => {
+    const ringEl = document.querySelector(ring);
+    const circleEl = document.querySelector(circle);
+    const imgEl = document.querySelector(img);
+    if (!ringEl || !circleEl || !imgEl) return;
+
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    tl.from(imgEl, { scale: 0.7, opacity: 0, duration: 0.8 })
+      .to(circleEl, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" }, "-=0.4");
+
+    gsap.to(ringEl, {
+      scale: 1.06, duration: 2.4, repeat: -1, yoyo: true,
+      ease: "sine.inOut", transformOrigin: "50% 50%", delay: 1.8,
+    });
+  });
+
+  console.log("[GSAP] Avatar anillo configurado.");
+
   console.log("[GSAP] Animaciones cargadas correctamente.");
 });
