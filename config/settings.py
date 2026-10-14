@@ -21,6 +21,12 @@ ALLOWED_HOSTS = os.getenv(
 # Permitir el host que usa el cliente de test de Django
 if DEBUG and "testserver" not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append("testserver")
+
+# CSRF trusted origins (producción)
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    "CSRF_TRUSTED_ORIGINS",
+    "http://localhost:8000,https://*.vercel.app"
+).split(",")
 # --- Aplicaciones ---------------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",

@@ -1,0 +1,15 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+staticfiles/
+media/
+node_modules/
+tailwind.pid
+tailwind.log
+Procfile.tailwind
+.backup-*/
+.theme/
+*.sqlite3
