@@ -1,15 +1,16 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from core.validators import validar_tech_stack, validar_longitud_minima
 
 
 class Project(models.Model):
     name = models.CharField(max_length=120, unique=True)
     slug = models.SlugField(max_length=140, unique=True, blank=True)
-    description = models.TextField()
+    description = models.TextField(validators=[validar_longitud_minima(20)])
     url_github = models.URLField(blank=True)
     url_demo = models.URLField(blank=True)
-    tech_stack = models.JSONField(default=list, blank=True)
+    tech_stack = models.JSONField(default=list, blank=True, validators=[validar_tech_stack])
     image = models.ImageField(upload_to="projects/", blank=True, null=True)
     featured = models.BooleanField(default=False)
     position = models.PositiveIntegerField(default=0)

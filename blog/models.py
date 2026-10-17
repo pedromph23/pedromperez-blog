@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from core.validators import validar_slug_seguro, validar_longitud_minima
 
 
 class Category(models.Model):
@@ -42,10 +43,10 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, validators=[validar_longitud_minima(5)])
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     excerpt = models.TextField(blank=True, max_length=300)
-    content = models.TextField()
+    content = models.TextField(validators=[validar_longitud_minima(50)])
     cover_image = models.ImageField(upload_to="covers/", blank=True, null=True)
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="posts"

@@ -1,4 +1,4 @@
-from django.contrib import admin
+from core.admin_site import secure_admin_site
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,7 +15,7 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("gestion-interna/", secure_admin_site.urls),
     path("", include("core.urls")),
     path("blog/", include("blog.urls")),
     path("proyectos/", include("projects.urls")),

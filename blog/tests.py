@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from .models import Post, Category, Tag
+from django.core.exceptions import ValidationError
 
 
 class CategoryModelTests(TestCase):
@@ -121,3 +122,17 @@ class BlogViewTests(TestCase):
         self.client.get(f"/blog/{post.slug}/")
         post.refresh_from_db()
         self.assertEqual(post.views, views_iniciales + 1)
+
+class ModelValidationTests(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(username="test", password="pass")
+
+    def test_post_titulo_muy_corto(self):
+        post = Post(title="Hola", content="Contenido de prueba válido de más de 50 caracteres...", author=self.user)
+        with self.assertRaises(ValidationError):
+            post.full_clean()
+
+    def test_post_contenido_muy_corto(self):
+        post = Post(title="Hola mundo", content="Corto", author=self.user)
+        with self.assertRaises(ValidationError):
+            post.full_clean()

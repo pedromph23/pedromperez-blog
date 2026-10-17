@@ -75,3 +75,88 @@ class SEOTests(TestCase):
         self.assertContains(r, "application/ld+json")
         self.assertContains(r, '"@type": "Person"')
         self.assertContains(r, '"@type": "WebSite"')
+
+# =============================================================
+# TESTS: Validaciones, Formularios, Admin Seguro
+# =============================================================
+from django.test import TestCase, Client
+from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+from core.validators import validar_slug_seguro, validar_longitud_minima, validar_tech_stack
+from core.forms import ContactForm
+from blog.models import Post
+
+class ValidatorTests(TestCase):
+    def test_slug_valido(self):
+        validar_slug_seguro("mi-post-2026")
+
+    def test_slug_invalido_mayusculas(self):
+        with self.assertRaises(ValidationError):
+            validar_slug_seguro("Mi-Post")
+
+    def test_longitud_minima(self):
+        val = validar_longitud_minima(5)
+        with self.assertRaises(ValidationError):
+            val("hola")
+        val("hola mundo")
+
+    def test_tech_stack_invalido(self):
+        with self.assertRaises(ValidationError):
+            validar_tech_stack(["Django", ""])
+        with self.assertRaises(ValidationError):
+            validar_tech_stack("Django")
+
+class ContactFormTests(TestCase):
+    def test_form_valido(self):
+        form = ContactForm(data={
+            "name": "Juan",
+            "email": "juan@test.com",
+            "subject": "Hola",
+            "body": "Este es un mensaje de prueba válido."
+        })
+        self.assertTrue(form.is_valid())
+
+    def test_form_invalido_por_enlaces(self):
+        form = ContactForm(data={
+            "name": "Juan",
+            "email": "juan@test.com",
+            "subject": "Hola",
+            "body": "Mira esto http://spam.com"
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn("body", form.errors)
+
+    def test_form_invalido_por_longitud(self):
+        form = ContactForm(data={
+            "name": "J",
+            "email": "juan@test.com",
+            "body": "Corto"
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn("name", form.errors)
+        self.assertIn("body", form.errors)
+
+class SecureAdminTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.User = get_user_model()
+        self.admin = self.User.objects.create_superuser("admin", "a@a.com", "pass")
+        self.user = self.User.objects.create_user("user", "u@u.com", "pass")
+
+    def test_admin_url_es_custom(self):
+        r = self.client.get("/admin/")
+        self.assertEqual(r.status_code, 404)
+
+    def test_admin_url_requiere_login(self):
+        r = self.client.get("/gestion-interna/")
+        self.assertEqual(r.status_code, 302)
+
+    def test_admin_url_rechaza_no_superuser(self):
+        self.client.force_login(self.user)
+        r = self.client.get("/gestion-interna/")
+        self.assertEqual(r.status_code, 302)
+
+    def test_admin_url_acepta_superuser(self):
+        self.client.force_login(self.admin)
+        r = self.client.get("/gestion-interna/")
+        self.assertEqual(r.status_code, 200)

@@ -29,6 +29,9 @@ CSRF_TRUSTED_ORIGINS = os.getenv(
 ).split(",")
 # --- Aplicaciones ---------------------------------------------------------
 INSTALLED_APPS = [
+    "admin_interface",
+    "colorfield",
+    "axes",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "axes.middleware.AxesMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -96,6 +100,19 @@ else:
         }
     }
 
+
+
+# =============================================================
+# Override: usar SQLite en tests (evita conflicto con pooler de Supabase)
+# =============================================================
+import sys as _sys
+if "test" in _sys.argv:
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db_test.sqlite3",
+    }
+
+
 # --- Password validation --------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -106,6 +123,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # --- i18n -----------------------------------------------------------------
 LANGUAGE_CODE = "es-ve"
+USE_I18N = True
+
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 1
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]
 TIME_ZONE = "America/Caracas"
 USE_I18N = True
 USE_TZ = True
@@ -141,3 +164,9 @@ WHITENOISE_ROOT = BASE_DIR / "staticfiles"  # directorio post-collectstatic
 TAILWIND_APP_NAME = "theme"
 INTERNAL_IPS = ["127.0.0.1"]
 
+
+
+AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesStandaloneBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
