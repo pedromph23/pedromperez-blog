@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Código y Compás Admin') }}{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'admin/css/admin-theme.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+{% endblock %}
+
+{% block footer %}
+  {{ block.super }}
+  <script src="{% static 'admin/js/admin-animations.js' %}"></script>
+{% endblock %}

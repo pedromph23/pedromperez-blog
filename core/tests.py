@@ -160,3 +160,42 @@ class SecureAdminTests(TestCase):
         self.client.force_login(self.admin)
         r = self.client.get("/gestion-interna/")
         self.assertEqual(r.status_code, 200)
+
+# =============================================================
+# TESTS: Verificación de la UI del Admin Personalizado
+# =============================================================
+from django.test import TestCase, Client
+from django.contrib.auth import get_user_model
+from django.urls import reverse
+
+class AdminUITests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.User = get_user_model()
+        self.admin_user = self.User.objects.create_superuser(
+            username='admin_ui_test',
+            email='admin@ui.test',
+            password='password123'
+        )
+        self.client.force_login(self.admin_user)
+
+    def test_admin_loads_custom_assets(self):
+        """Verifica que el CSS y JS personalizados se cargan en el admin."""
+        response = self.client.get(reverse('admin:index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'admin/css/admin-theme.css')
+        self.assertContains(response, 'gsap.min.js')
+        self.assertContains(response, 'admin/js/admin-animations.js')
+
+    def test_admin_smoke_test(self):
+        """Prueba de humo: verifica que las páginas principales del admin devuelven 200."""
+        urls = [
+            reverse('admin:index'),
+            reverse('admin:blog_post_changelist'),
+            reverse('admin:blog_post_add'),
+            reverse('admin:auth_user_changelist'),
+        ]
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200, f"La URL {url} falló con {response.status_code}")

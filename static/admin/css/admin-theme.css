@@ -1,0 +1,70 @@
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --text-primary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --border-color: #334155;
+  --font-body: 'Inter', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
+
+#header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+#branding h1 a { color: var(--accent) !important; }
+#user-tools a { color: var(--text-muted); }
+#user-tools a:hover { color: var(--accent); }
+
+.module {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.module h2, .module caption {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+thead th {
+  background-color: var(--bg-primary);
+  color: var(--accent);
+}
+tbody tr:nth-child(even) { background-color: var(--bg-secondary); }
+tbody tr:hover { background-color: var(--border-color); }
+
+input, textarea, select {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-hover);
+}
+
+.button, input[type="submit"], input[type="button"] {
+  background-color: var(--accent);
+  color: #0f172a;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+  background-color: var(--accent-hover);
+}
