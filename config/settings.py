@@ -29,9 +29,10 @@ CSRF_TRUSTED_ORIGINS = os.getenv(
 ).split(",")
 # --- Aplicaciones ---------------------------------------------------------
 INSTALLED_APPS = [
-    "admin_interface",
-    "colorfield",
     "axes",
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -129,7 +130,6 @@ USE_I18N = True
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 1
 X_FRAME_OPTIONS = "SAMEORIGIN"
-SILENCED_SYSTEM_CHECKS = ["security.W019"]
 TIME_ZONE = "America/Caracas"
 USE_I18N = True
 USE_TZ = True
@@ -171,3 +171,40 @@ AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesStandaloneBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
+
+# --- Django Unfold (Admin Theme) ---
+UNFOLD = {
+    "SITE_TITLE": "Código y Compás",
+    "SITE_HEADER": "Administración",
+    "SITE_URL": "/",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "DARK_MODE": True,  # Fuerza el modo oscuro por defecto
+    "COLORS": {
+        "primary": {
+            "50": "236 253 245",
+            "100": "209 250 229",
+            "200": "167 243 208",
+            "300": "110 231 183",
+            "400": "52 211 153",
+            "500": "16 185 129",  # emerald-500
+            "600": "5 150 105",
+            "700": "4 120 87",
+            "800": "6 95 70",
+            "900": "6 78 59",
+            "950": "2 44 34",
+        },
+        "font": {
+            "subtle-light": "var(--color-slate-500)",
+            "subtle-dark": "var(--color-slate-400)",
+            "default-light": "var(--color-slate-600)",
+            "default-dark": "var(--color-slate-300)",
+            "important-light": "var(--color-slate-900)",
+            "important-dark": "var(--color-slate-100)",
+        },
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+    },
+}
