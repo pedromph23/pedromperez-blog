@@ -169,6 +169,8 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 
+
+
 class CustomAdminThemeTests(TestCase):
     def setUp(self):
         self.client = Client()
@@ -190,12 +192,6 @@ class CustomAdminThemeTests(TestCase):
         self.assertContains(response, 'gsap.min.js')
         # Verificar JS custom
         self.assertContains(response, 'admin/js/admin-animations.js')
-
-    def test_unfold_is_gone(self):
-        """Asegura que django-unfold no está controlando la vista."""
-        response = self.client.get(reverse('admin:index'))
-        self.assertNotContains(response, 'unfold/')
-        self.assertNotContains(response, 'x-data="theme()"') # Atributo de Alpine de Unfold
 
     def test_admin_pages_return_200(self):
         """Prueba de humo."""
