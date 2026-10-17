@@ -168,27 +168,37 @@ from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-class AdminUITests(TestCase):
+
+class CustomAdminThemeTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.User = get_user_model()
         self.admin_user = self.User.objects.create_superuser(
-            username='admin_ui_test',
-            email='admin@ui.test',
+            username='admin_theme_test',
+            email='admin@theme.test',
             password='password123'
         )
         self.client.force_login(self.admin_user)
 
-    def test_admin_loads_custom_assets(self):
-        """Verifica que el CSS y JS personalizados se cargan en el admin."""
+    def test_admin_theme_files_are_loaded(self):
+        """Verifica que el CSS y JS personalizados se inyectan en el HTML."""
         response = self.client.get(reverse('admin:index'))
         self.assertEqual(response.status_code, 200)
+        # Verificar CSS custom
         self.assertContains(response, 'admin/css/admin-theme.css')
+        # Verificar GSAP
         self.assertContains(response, 'gsap.min.js')
+        # Verificar JS custom
         self.assertContains(response, 'admin/js/admin-animations.js')
 
-    def test_admin_smoke_test(self):
-        """Prueba de humo: verifica que las páginas principales del admin devuelven 200."""
+    def test_unfold_is_gone(self):
+        """Asegura que django-unfold no está controlando la vista."""
+        response = self.client.get(reverse('admin:index'))
+        self.assertNotContains(response, 'unfold/')
+        self.assertNotContains(response, 'x-data="theme()"') # Atributo de Alpine de Unfold
+
+    def test_admin_pages_return_200(self):
+        """Prueba de humo."""
         urls = [
             reverse('admin:index'),
             reverse('admin:blog_post_changelist'),
@@ -198,4 +208,4 @@ class AdminUITests(TestCase):
         for url in urls:
             with self.subTest(url=url):
                 response = self.client.get(url)
-                self.assertEqual(response.status_code, 200, f"La URL {url} falló con {response.status_code}")
+                self.assertEqual(response.status_code, 200)
