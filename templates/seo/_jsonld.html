@@ -54,11 +54,11 @@
     "@type": "WebPage",
     "@id": "{{ request.build_absolute_uri }}"
   },
-  "headline": "{{ post.titulo|escapejs }}",
-  "description": "{{ post.resumen|escapejs }}",
-  "image": "{% if post.imagen_portada %}{{ request.scheme }}://{{ request.get_host }}{{ post.imagen_portada.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.png' %}{% endif %}",
-  "datePublished": "{% if post.fecha_publicacion %}{{ post.fecha_publicacion|date:'c' }}{% endif %}",
-  "dateModified": "{{ post.updated_at|date:'c' }}",
+  "headline": "{{ publicacion.titulo|escapejs }}",
+  "description": "{{ publicacion.resumen|escapejs }}",
+  "image": "{% if publicacion.imagen_portada %}{{ request.scheme }}://{{ request.get_host }}{{ publicacion.imagen_portada.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.png' %}{% endif %}",
+  "datePublished": "{% if publicacion.fecha_publicacion %}{{ publicacion.fecha_publicacion|date:'c' }}{% endif %}",
+  "dateModified": "{{ publicacion.updated_at|date:'c' }}",
   "author": {
     "@type": "Person",
     "name": "Pedro Manuel Pérez Herrera",
@@ -72,10 +72,10 @@
       "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.png' %}"
     }
   },
-  "wordCount": {{ post.contenido|wordcount }},
+  "wordCount": {{ publicacion.contenido|wordcount }},
   "inLanguage": "es-VE",
-  {% if post.categoria %}"articleSection": "{{ post.categoria.name|escapejs }}",{% endif %}
-  {% if post.etiquetas.all %}"keywords": "{% for tag in post.etiquetas.all %}{{ etiqueta.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}",{% endif %}
+  {% if publicacion.categoria %}"articleSection": "{{ publicacion.categoria.name|escapejs }}",{% endif %}
+  {% if publicacion.etiquetas.all %}"keywords": "{% for tag in publicacion.etiquetas.all %}{{ etiqueta.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}",{% endif %}
   "url": "{{ request.build_absolute_uri }}"
 }
 </script>
@@ -104,7 +104,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "{{ post.titulo|escapejs }}",
+      "name": "{{ publicacion.titulo|escapejs }}",
       "item": "{{ request.build_absolute_uri }}"
     }
     {% elif project %}

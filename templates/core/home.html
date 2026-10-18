@@ -45,25 +45,25 @@
   </div>
 </section>
 
-<section class="hero-section mb-16">
+<section class="mb-16">
   <h2 class="section-title mb-6 text-2xl font-semibold">Últimos artículos</h2>
   {% if publicaciones %}
     <div class="grid gap-4 sm:grid-cols-2">
-      {% for post in publicaciones %}
+      {% for publicacion in publicaciones %}
         <article class="animate-card rounded-xl border border-slate-800 bg-slate-900/30 p-5 transition hover:border-emerald-400">
-          {% if post.categoria %}
-            <p class="font-mono text-xs text-emerald-400">{{ post.categoria.name }}</p>
-          {% endif %}
+          <p class="font-mono text-xs text-emerald-400 mb-1">{{ publicacion.categoria.nombre|default:"General" }}</p>
           <h3 class="mt-2 font-medium">
-            <a href="{{ post.get_absolute_url }}" class="text-slate-200 hover:text-emerald-400 transition-colors">{{ post.titulo }}</a>
+            <a href="{{ publicacion.get_absolute_url }}" class="text-slate-200 hover:text-emerald-400 transition-colors">{{ publicacion.titulo }}</a>
           </h3>
-          <p class="mt-2 text-sm text-slate-400 line-clamp-3">{{ post.resumen }}</p>
-          <p class="mt-3 font-mono text-xs text-slate-500">{{ post.tiempo_lectura }} min · {{ post.fecha_publicacion|date:"d M Y" }}</p>
+          <p class="mt-2 text-sm text-slate-400 line-clamp-3">{{ publicacion.resumen }}</p>
+          <p class="mt-3 font-mono text-xs text-slate-500">{{ publicacion.tiempo_lectura }} min · {{ publicacion.fecha_publicacion|date:"d M Y" }}</p>
         </article>
       {% endfor %}
     </div>
   {% else %}
-    <p class="text-slate-500">Aún no hay artículos publicados.</p>
+    <p class="text-slate-500 font-mono text-sm border border-dashed border-slate-700 p-4 rounded-lg">
+      // Aún no hay artículos publicados.
+    </p>
   {% endif %}
 </section>
 
@@ -71,18 +71,34 @@
   <h2 class="section-title mb-6 text-2xl font-semibold">Proyectos destacados</h2>
   {% if proyectos_destacados %}
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {% for project in proyectos_destacados %}
-        <article class="rounded-xl border border-slate-800 bg-slate-900/30 p-5">
+      {% for proyecto in proyectos_destacados %}
+        <article class="animate-card flex flex-col rounded-xl border border-slate-800 bg-slate-900/30 p-5 transition hover:border-emerald-400">
           <h3 class="font-medium">{{ proyecto.nombre }}</h3>
-          <p class="mt-2 text-sm text-slate-400 line-clamp-3">{{ proyecto.descripcion }}</p>
-          {% if proyecto.url_github %}
-            <a href="{{ proyecto.url_github }}" target="_blank" class="mt-3 inline-block font-mono text-xs text-emerald-400">repo ↗</a>
+          <p class="mt-2 flex-1 text-sm text-slate-400">{{ proyecto.descripcion }}</p>
+          
+          {% if proyecto.tecnologias %}
+          <ul class="mt-3 flex flex-wrap gap-1.5">
+            {% for tech in proyecto.tecnologias %}
+              <li class="rounded-md bg-slate-950 px-2 py-0.5 font-mono text-[11px] text-emerald-400">{{ tech }}</li>
+            {% endfor %}
+          </ul>
           {% endif %}
+          
+          <div class="mt-4 flex gap-3 text-xs">
+            {% if proyecto.url_github %}
+              <a href="{{ proyecto.url_github }}" target="_blank" class="text-emerald-400 hover:underline">GitHub ↗</a>
+            {% endif %}
+            {% if proyecto.url_demo %}
+              <a href="{{ proyecto.url_demo }}" target="_blank" class="text-emerald-400 hover:underline">Demo ↗</a>
+            {% endif %}
+          </div>
         </article>
       {% endfor %}
     </div>
   {% else %}
-    <p class="text-slate-500">Carga proyectos desde el admin.</p>
+    <p class="text-slate-500 font-mono text-sm border border-dashed border-slate-700 p-4 rounded-lg">
+      // Aún no hay proyectos destacados. Ve al admin y marca un proyecto como "Destacado".
+    </p>
   {% endif %}
 </section>
 {% endblock %}
