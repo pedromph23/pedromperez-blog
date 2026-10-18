@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.contrib.sitemaps.views import sitemap
 from django.urls import reverse
-from blog.models import Post
+from blog.models import Publicacion
 from django.utils import timezone
 
 
@@ -18,19 +18,19 @@ def robots_txt(request):
 
 
 def rss_feed(request):
-    posts = Post.objects.filter(published=True).select_related("category").order_by("-published_at")[:20]
+    posts = Publicacion.objects.filter(publicado=True).select_related("category").order_by("-published_at")[:20]
     site_url = request.build_absolute_uri("/").rstrip("/")
 
     items = []
     for post in posts:
-        pub_date = post.published_at.strftime("%a, %d %b %Y %H:%M:%S +0000") if post.published_at else ""
+        pub_date = post.fecha_publicacion.strftime("%a, %d %b %Y %H:%M:%S +0000") if post.fecha_publicacion else ""
         items.append(f"""
     <item>
-      <title><![CDATA[{post.title}]]></title>
+      <title><![CDATA[{post.titulo}]]></title>
       <link>{site_url}{post.get_absolute_url()}</link>
       <guid isPermaLink="true">{site_url}{post.get_absolute_url()}</guid>
       <pubDate>{pub_date}</pubDate>
-      <description><![CDATA[{post.excerpt}]]></description>
+      <description><![CDATA[{post.resumen}]]></description>
     </item>""")
 
     rss = f"""<?xml version="1.0" encoding="UTF-8"?>

@@ -1,46 +1,22 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from blog.models import Post, Category
-from projects.models import Project
-
+from blog.models import Publicacion, Categoria
+from projects.models import Proyecto
 
 class StaticViewSitemap(Sitemap):
-    priority = 0.8
-    changefreq = "monthly"
+    priority = 0.8; changefreq = "monthly"
+    def items(self): return ["core:home", "blog:list", "proyectos:list", "core:about", "core:contact"]
+    def location(self, item): return reverse(item)
 
-    def items(self):
-        return ["core:home", "blog:list", "projects:list", "core:about", "core:contact"]
+class PublicacionSitemap(Sitemap):
+    priority = 0.9; changefreq = "weekly"
+    def items(self): return Publicacion.objects.filter(publicado=True).order_by("-fecha_publicacion")
+    def lastmod(self, obj): return obj.actualizado_el
 
-    def location(self, item):
-        return reverse(item)
+class CategoriaSitemap(Sitemap):
+    priority = 0.6; changefreq = "weekly"
+    def items(self): return Categoria.objects.all()
 
-
-class PostSitemap(Sitemap):
-    priority = 0.9
-    changefreq = "weekly"
-
-    def items(self):
-        return Post.objects.filter(published=True).order_by("-published_at")
-
-    def lastmod(self, obj):
-        return obj.updated_at
-
-
-class CategorySitemap(Sitemap):
-    priority = 0.6
-    changefreq = "weekly"
-
-    def items(self):
-        return Category.objects.all()
-
-
-class ProjectSitemap(Sitemap):
-    priority = 0.7
-    changefreq = "monthly"
-
-    def items(self):
-        return Project.objects.all()
-
-    def lastmod(self, obj):
-        # Project no tiene updated_at; usamos el más reciente de los posts
-        return None
+class ProyectoSitemap(Sitemap):
+    priority = 0.7; changefreq = "monthly"
+    def items(self): return Proyecto.objects.all()

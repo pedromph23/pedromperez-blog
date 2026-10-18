@@ -1,34 +1,34 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ project.name }} · Proyectos · Código y Compás{% endblock %}
-{% block meta_description %}{{ project.description|truncatechars:160 }}{% endblock %}
+{% block title %}{{ proyecto.nombre }} · Proyectos · Código y Compás{% endblock %}
+{% block meta_description %}{{ proyecto.descripcion|truncatechars:160 }}{% endblock %}
 {% block canonical %}{{ request.build_absolute_uri }}{% endblock %}
 
 {% block og_type %}article{% endblock %}
-{% block og_title %}{{ project.name }} — Proyectos{% endblock %}
-{% block og_description %}{{ project.description|truncatechars:160 }}{% endblock %}
-{% block og_image %}{% if project.image %}{{ request.scheme }}://{{ request.get_host }}{{ project.image.url }}{% else %}{% static 'img/og-default.png' %}{% endif %}{% endblock %}
+{% block og_title %}{{ proyecto.nombre }} — Proyectos{% endblock %}
+{% block og_description %}{{ proyecto.descripcion|truncatechars:160 }}{% endblock %}
+{% block og_image %}{% if proyecto.imagen %}{{ request.scheme }}://{{ request.get_host }}{{ proyecto.imagen.url }}{% else %}{% static 'img/og-default.png' %}{% endif %}{% endblock %}
 
-{% block tw_title %}{{ project.name }} — Proyectos{% endblock %}
-{% block tw_description %}{{ project.description|truncatechars:160 }}{% endblock %}
-{% block tw_image %}{% if project.image %}{{ request.scheme }}://{{ request.get_host }}{{ project.image.url }}{% else %}{% static 'img/og-default.png' %}{% endif %}{% endblock %}
+{% block tw_title %}{{ proyecto.nombre }} — Proyectos{% endblock %}
+{% block tw_description %}{{ proyecto.descripcion|truncatechars:160 }}{% endblock %}
+{% block tw_image %}{% if proyecto.imagen %}{{ request.scheme }}://{{ request.get_host }}{{ proyecto.imagen.url }}{% else %}{% static 'img/og-default.png' %}{% endif %}{% endblock %}
 
 {% block content %}
-<a href="{% url 'projects:list' %}" class="font-mono text-xs text-slate-500 hover:text-emerald-400">← proyectos</a>
-<h1 class="hero-title mt-6 text-3xl font-bold">{{ project.name }}</h1>
-<p class="mt-4 text-slate-300">{{ project.description }}</p>
+<a href="{% url 'proyectos:list' %}" class="font-mono text-xs text-slate-500 hover:text-emerald-400">← proyectos</a>
+<h1 class="hero-title mt-6 text-3xl font-bold">{{ proyecto.nombre }}</h1>
+<p class="mt-4 text-slate-300">{{ proyecto.descripcion }}</p>
 
-{% if project.tech_stack %}
+{% if proyecto.tecnologias %}
 <div class="mt-6 flex flex-wrap gap-2">
-  {% for tech in project.tech_stack %}
+  {% for tech in proyecto.tecnologias %}
     <span class="rounded-md bg-slate-900 px-2 py-1 font-mono text-xs text-emerald-400">{{ tech }}</span>
   {% endfor %}
 </div>
 {% endif %}
 
 <div class="mt-8 flex gap-4 text-sm">
-  {% if project.url_github %}<a href="{{ project.url_github }}" target="_blank" class="text-emerald-400 hover:underline">Ver en GitHub ↗</a>{% endif %}
-  {% if project.url_demo %}<a href="{{ project.url_demo }}" target="_blank" class="text-emerald-400 hover:underline">Demo ↗</a>{% endif %}
+  {% if proyecto.url_github %}<a href="{{ proyecto.url_github }}" target="_blank" class="text-emerald-400 hover:underline">Ver en GitHub ↗</a>{% endif %}
+  {% if proyecto.url_demo %}<a href="{{ proyecto.url_demo }}" target="_blank" class="text-emerald-400 hover:underline">Demo ↗</a>{% endif %}
 </div>
 {% endblock %}

@@ -4,14 +4,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 
-from core.sitemaps import StaticViewSitemap, PostSitemap, CategorySitemap, ProjectSitemap
+from core.sitemaps import StaticViewSitemap, PublicacionSitemap, CategoriaSitemap, ProyectoSitemap
 from core.views_seo import robots_txt, rss_feed, health
 
 sitemaps = {
     "static": StaticViewSitemap,
-    "posts": PostSitemap,
-    "categories": CategorySitemap,
-    "projects": ProjectSitemap,
+    "publicaciones": PublicacionSitemap,
+    "categorias": CategoriaSitemap,
+    "proyectos": ProyectoSitemap,
 }
 
 urlpatterns = [

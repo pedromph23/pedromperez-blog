@@ -1,24 +1,21 @@
 from django.contrib import admin
-from .models import Category, Tag, Post
+from .models import Categoria, Etiqueta, Publicacion
 
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "slug")
+    prepopulated_fields = {"slug": ("nombre",)}
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "slug")
-    prepopulated_fields = {"slug": ("name",)}
+@admin.register(Etiqueta)
+class EtiquetaAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "slug")
+    prepopulated_fields = {"slug": ("nombre",)}
 
-
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = ("name", "slug")
-    prepopulated_fields = {"slug": ("name",)}
-
-
-@admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ("title", "category", "published", "published_at", "reading_time")
-    list_filter = ("published", "category", "tags")
-    search_fields = ("title", "excerpt", "content")
-    prepopulated_fields = {"slug": ("title",)}
-    filter_horizontal = ("tags",)
-    date_hierarchy = "published_at"
+@admin.register(Publicacion)
+class PublicacionAdmin(admin.ModelAdmin):
+    list_display = ("titulo", "categoria", "publicado", "fecha_publicacion", "tiempo_lectura")
+    list_filter = ("publicado", "categoria", "etiquetas")
+    search_fields = ("titulo", "resumen", "contenido")
+    prepopulated_fields = {"slug": ("titulo",)}
+    filter_horizontal = ("etiquetas",)
+    date_hierarchy = "fecha_publicacion"

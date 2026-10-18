@@ -54,10 +54,10 @@
     "@type": "WebPage",
     "@id": "{{ request.build_absolute_uri }}"
   },
-  "headline": "{{ post.title|escapejs }}",
-  "description": "{{ post.excerpt|escapejs }}",
-  "image": "{% if post.cover_image %}{{ request.scheme }}://{{ request.get_host }}{{ post.cover_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.png' %}{% endif %}",
-  "datePublished": "{% if post.published_at %}{{ post.published_at|date:'c' }}{% endif %}",
+  "headline": "{{ post.titulo|escapejs }}",
+  "description": "{{ post.resumen|escapejs }}",
+  "image": "{% if post.imagen_portada %}{{ request.scheme }}://{{ request.get_host }}{{ post.imagen_portada.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.png' %}{% endif %}",
+  "datePublished": "{% if post.fecha_publicacion %}{{ post.fecha_publicacion|date:'c' }}{% endif %}",
   "dateModified": "{{ post.updated_at|date:'c' }}",
   "author": {
     "@type": "Person",
@@ -72,10 +72,10 @@
       "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.png' %}"
     }
   },
-  "wordCount": {{ post.content|wordcount }},
+  "wordCount": {{ post.contenido|wordcount }},
   "inLanguage": "es-VE",
-  {% if post.category %}"articleSection": "{{ post.category.name|escapejs }}",{% endif %}
-  {% if post.tags.all %}"keywords": "{% for tag in post.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}",{% endif %}
+  {% if post.categoria %}"articleSection": "{{ post.categoria.name|escapejs }}",{% endif %}
+  {% if post.etiquetas.all %}"keywords": "{% for tag in post.etiquetas.all %}{{ etiqueta.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}",{% endif %}
   "url": "{{ request.build_absolute_uri }}"
 }
 </script>
@@ -104,7 +104,7 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "{{ post.title|escapejs }}",
+      "name": "{{ post.titulo|escapejs }}",
       "item": "{{ request.build_absolute_uri }}"
     }
     {% elif project %}
@@ -112,12 +112,12 @@
       "@type": "ListItem",
       "position": 2,
       "name": "Proyectos",
-      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'projects:list' %}"
+      "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'proyectos:list' %}"
     },
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "{{ project.name|escapejs }}",
+      "name": "{{ proyecto.nombre|escapejs }}",
       "item": "{{ request.build_absolute_uri }}"
     }
     {% endif %}

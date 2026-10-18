@@ -1,52 +1,31 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import F
-from .models import Post, Category, Tag
-
+from .models import Publicacion, Categoria, Etiqueta
 
 def post_list(request):
-    qs = Post.objects.filter(published=True).select_related("category").prefetch_related("tags")
-
-    category_slug = request.GET.get("category")
-    tag_slug = request.GET.get("tag")
-    if category_slug:
-        qs = qs.filter(category__slug=category_slug)
-    if tag_slug:
-        qs = qs.filter(tags__slug=tag_slug)
-
+    qs = Publicacion.objects.filter(publicado=True).select_related("categoria").prefetch_related("etiquetas")
+    categoria_slug = request.GET.get("categoria")
+    etiqueta_slug = request.GET.get("etiqueta")
+    if categoria_slug: qs = qs.filter(categoria__slug=categoria_slug)
+    if etiqueta_slug: qs = qs.filter(etiquetas__slug=etiqueta_slug)
     paginator = Paginator(qs, 9)
     page = paginator.get_page(request.GET.get("page"))
-
     return render(request, "blog/list.html", {
-        "page_obj": page,
-        "categories": Category.objects.all(),
-        "tags": Tag.objects.all(),
-        "current_category": category_slug,
-        "current_tag": tag_slug,
+        "page_obj": page, "categorias": Categoria.objects.all(),
+        "etiquetas": Etiqueta.objects.all(), "current_category": categoria_slug, "current_tag": etiqueta_slug,
     })
 
-
 def post_detail(request, slug):
-    post = get_object_or_404(
-        Post.objects.select_related("category").prefetch_related("tags"),
-        slug=slug, published=True,
-    )
-    Post.objects.filter(pk=post.pk).update(views=F("views") + 1)
-
-    related = Post.objects.filter(
-        published=True, category=post.category
-    ).exclude(pk=post.pk)[:3]
-
-    return render(request, "blog/detail.html", {"post": post, "related": related})
-
+    publicacion = get_object_or_404(Publicacion.objects.select_related("categoria").prefetch_related("etiquetas"), slug=slug, publicado=True)
+    Publicacion.objects.filter(pk=publicacion.pk).update(visitas=F("visitas") + 1)
+    related = Publicacion.objects.filter(publicado=True, categoria=publicacion.categoria).exclude(pk=publicacion.pk)[:3]
+    return render(request, "blog/detail.html", {"post": publicacion, "related": related})
 
 def category_detail(request, slug):
-    category = get_object_or_404(Category, slug=slug)
-    posts = Post.objects.filter(published=True, category=category)
+    categoria = get_object_or_404(Categoria, slug=slug)
+    publicaciones = Publicacion.objects.filter(publicado=True, categoria=categoria)
     return render(request, "blog/list.html", {
-        "page_obj": posts,
-        "categories": Category.objects.all(),
-        "tags": Tag.objects.all(),
-        "current_category": category.slug,
-        "category": category,
+        "page_obj": publicaciones, "categorias": Categoria.objects.all(),
+        "etiquetas": Etiqueta.objects.all(), "current_category": categoria.slug, "category": categoria,
     })
