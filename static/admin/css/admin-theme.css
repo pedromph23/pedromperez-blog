@@ -1,164 +1,128 @@
 /* =========================================================
-   ADMIN DASHBOARD THEME - CÓDIGO Y COMPÁS (CSS ONLY)
+   ADMIN DASHBOARD THEME - CÓDIGO Y COMPÁS (FIXED LAYOUT)
    ========================================================= */
 :root {
   --bg-sidebar: #09090b;
   --bg-main: #18181b;
   --bg-card: #27272a;
-  --bg-hover: #3f3f46;
   --text-main: #e4e4e7;
   --text-muted: #a1a1aa;
   --accent: #10b981;
-  --accent-hover: #059669;
   --border: #27272a;
   --font: 'Inter', sans-serif;
-  --sidebar-width: 260px;
 }
 
-/* Ocultar elementos que estorban */
-#branding, #user-tools { display: none !important; }
-
-/* Reset y Estructura Flexbox */
+/* 1. Estructura principal con CSS Grid */
 body {
   background-color: var(--bg-main) !important;
   color: var(--text-main) !important;
   font-family: var(--font) !important;
-  font-size: 13px !important;
   margin: 0;
-  display: flex !important;
+  display: grid;
+  grid-template-columns: 260px 1fr;
   min-height: 100vh;
 }
 
-/* El Header se convierte en el Sidebar Izquierdo */
+/* Ocultar el toggle nativo del sidebar para que no estorbe */
+#toggle-nav-sidebar { display: none !important; }
+
+/* 2. El Header se convierte en el Sidebar Izquierdo */
 #header {
+  grid-column: 1;
   background: var(--bg-sidebar) !important;
-  width: var(--sidebar-width) !important;
-  position: fixed !important;
-  top: 0; bottom: 0; left: 0;
   border-right: 1px solid var(--border);
+  padding: 20px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 16px 0;
-  z-index: 1000;
 }
-#header::before {
-  content: "> codigoycompas";
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 16px;
-  padding: 0 20px 20px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
-  display: block;
-}
-/* Inyectar menú en el header usando el nav-sidebar nativo */
-#nav-sidebar {
-  background: transparent !important;
-  border: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-#nav-sidebar .module {
-  background: transparent !important;
-  border: none !important;
-  margin-bottom: 16px;
-}
-#nav-sidebar .module caption {
-  background: transparent !important;
-  color: var(--text-muted) !important;
-  font-size: 11px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-  padding: 8px 20px !important;
-}
-#nav-sidebar .module a {
-  color: var(--text-main) !important;
-  padding: 8px 20px !important;
-  display: block !important;
-  transition: all 150ms !important;
-  font-size: 13px !important;
-}
-#nav-sidebar .module a:hover {
-  background: var(--bg-card) !important;
-  color: var(--accent) !important;
-  border-left: 2px solid var(--accent);
-}
+#branding { display: none !important; } /* Ocultamos el logo por defecto */
 
-/* Área Principal */
+/* 3. Contenedor principal (ocupa el resto de la pantalla) */
 #container {
-  margin-left: var(--sidebar-width) !important;
-  width: calc(100% - var(--sidebar-width)) !important;
+  grid-column: 2;
+  width: 100% !important;
+  margin: 0 !important;
   display: flex;
   flex-direction: column;
 }
 
-/* Navbar Superior */
+/* 4. Barra superior con Breadcrumbs */
 #container > header {
   background: var(--bg-sidebar) !important;
-  border-bottom: 1px solid var(--border) !important;
-  height: 48px !important;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
   display: flex;
   align-items: center;
-  padding: 0 24px !important;
+  justify-content: space-between;
 }
-.breadcrumbs {
-  background: transparent !important;
-  color: var(--text-muted) !important;
-  font-size: 13px !important;
-}
-.breadcrumbs a { color: var(--text-main) !important; text-decoration: none; }
+.breadcrumbs { background: transparent !important; color: var(--text-muted) !important; }
+.breadcrumbs a { color: var(--text-main) !important; }
 
-/* Contenido */
-.main {
-  padding: 24px !important;
-  flex: 1;
-}
-#content {
-  display: flex;
-  flex-direction: column;
+/* 5. Layout de la lista de cambios (Changelist) */
+.main { padding: 24px !important; flex: 1; }
+#changelist {
+  display: flex !important;
+  flex-direction: row !important;
   gap: 24px;
+  align-items: flex-start;
 }
-#content h1 { font-size: 20px !important; font-weight: 600 !important; color: var(--text-main) !important; }
-
-/* Tarjetas (Módulos del Dashboard) */
-.module {
+#changelist .results {
+  flex: 1 !important;
+  overflow-x: auto !important; /* Scroll solo en la tabla, no en toda la página */
   background: var(--bg-sidebar) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 8px !important;
-  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
-.module caption {
+#changelist-filter {
+  flex: 0 0 250px !important;
+  background: var(--bg-sidebar) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+#changelist-filter h2 { color: var(--accent) !important; font-size: 13px !important; margin-top: 0; }
+#changelist-filter a { color: var(--text-muted) !important; text-decoration: none; }
+#changelist-filter a:hover { color: var(--accent) !important; }
+
+/* 6. Tablas (estilo compacto) */
+table { width: 100%; border-collapse: collapse; }
+thead th {
   background: var(--bg-card) !important;
   color: var(--accent) !important;
-  padding: 12px 16px !important;
-  text-align: left;
-  font-weight: 600 !important;
-  font-size: 12px !important;
+  padding: 10px 16px !important;
+  font-size: 12px;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
   border-bottom: 1px solid var(--border);
 }
-.module table { width: 100%; border-collapse: collapse; }
-.module table th, .module table td { padding: 10px 16px !important; border-bottom: 1px solid var(--border); text-align: left; }
-.module table tr:last-child th, .module table tr:last-child td { border-bottom: none; }
-.module table tr:hover { background: var(--bg-card) !important; }
-.addlink, .changelink { font-weight: 500 !important; text-decoration: none; color: var(--accent) !important; }
-.addlink::before, .changelink::before { content: none !important; } /* Ocultar iconos viejos */
+tbody td { padding: 10px 16px !important; border-bottom: 1px solid var(--border); }
+tbody tr:hover { background: var(--bg-card) !important; }
+a { color: var(--accent) !important; text-decoration: none; }
 
-/* Formularios y Botones */
-input, textarea, select {
-  background: var(--bg-card) !important;
-  color: var(--text-main) !important;
+/* 7. Formularios */
+.form-row { padding: 12px 0 !important; border-bottom: 1px solid var(--border); }
+label { color: var(--text-muted) !important; font-size: 13px !important; font-weight: 500; }
+input[type="text"], input[type="password"], input[type="email"], select, textarea {
+  background: var(--bg-sidebar) !important;
   border: 1px solid var(--border) !important;
+  color: var(--text-main) !important;
   border-radius: 6px !important;
   padding: 8px 12px !important;
-  font-family: var(--font) !important;
+  width: 100% !important;
+  max-width: 500px;
 }
-input:focus, textarea:focus, select:focus {
+input:focus, select:focus, textarea:focus {
   border-color: var(--accent) !important;
   outline: none !important;
   box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
 }
-.button, input[type="submit"] {
+
+/* 8. Botones */
+.button, input[type="submit"], input[type="button"] {
   background: var(--accent) !important;
   color: var(--bg-sidebar) !important;
   border: none !important;
@@ -168,13 +132,12 @@ input:focus, textarea:focus, select:focus {
   cursor: pointer;
   transition: 150ms;
 }
-.button:hover, input[type="submit"]:hover { background: var(--accent-hover) !important; }
+.button:hover, input[type="submit"]:hover { filter: brightness(1.1); }
 
-/* Tablas de Resultados (ChangeList) */
-#result_list { width: 100%; }
-#result_list thead th { background: var(--bg-sidebar) !important; color: var(--text-muted) !important; padding: 12px 16px !important; border-bottom: 1px solid var(--border); }
-#result_list tbody td, #result_list tbody th { padding: 10px 16px !important; border-bottom: 1px solid var(--border); color: var(--text-main); }
-#result_list tbody tr:hover { background: var(--bg-card) !important; }
-
-/* Footer */
-#footer { display: none !important; }
+/* 9. Responsive: En móviles se colapsa */
+@media (max-width: 1024px) {
+  body { grid-template-columns: 1fr; display: block; }
+  #header { position: static; height: auto; width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+  #changelist { flex-direction: column !important; }
+  #changelist-filter { flex: none !important; width: 100% !important; }
+}
