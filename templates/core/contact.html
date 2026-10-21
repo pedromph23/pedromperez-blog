@@ -6,15 +6,9 @@
 <h1 class="hero-title text-3xl font-bold">Contacto</h1>
 <p class="hero-subtitle mt-2 text-slate-400">Escríbeme y te responderé lo antes posible.</p>
 
-<form method="post" class="animate-card mt-8 space-y-4" novalidate>
+<form id="contact-form" class="animate-card mt-8 space-y-4" novalidate>
   {% csrf_token %}
   {{ form.honeypot }}
-
-  {% if form.non_field_errors %}
-    <div class="bg-red-500/10 border border-red-500 text-red-400 p-3 rounded-md text-sm">
-      {{ form.non_field_errors.0 }}
-    </div>
-  {% endif %}
 
   {% for field in form %}
     {% if field.name != 'honeypot' %}
@@ -28,6 +22,53 @@
     {% endif %}
   {% endfor %}
 
-  <button class="rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-medium text-slate-950 hover:bg-emerald-600 transition w-full sm:w-auto">Enviar mensaje</button>
+  <button type="submit" class="rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-medium text-slate-950 hover:bg-emerald-600 transition w-full sm:w-auto">Enviar mensaje</button>
 </form>
+
+<div id="form-messages" class="mt-4 hidden"></div>
+
+<script>
+  document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const msgDiv = document.getElementById('form-messages');
+    
+    // Estado de carga
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    msgDiv.classList.add('hidden');
+    
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch(window.location.href, {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        msgDiv.className = 'mt-4 p-4 rounded-md text-sm bg-emerald-500/10 text-emerald-400 border border-emerald-500';
+        msgDiv.textContent = data.message;
+        msgDiv.classList.remove('hidden');
+        form.reset(); // Limpiar formulario
+      } else {
+        msgDiv.className = 'mt-4 p-4 rounded-md text-sm bg-red-500/10 text-red-400 border border-red-500';
+        msgDiv.innerHTML = Object.values(data.errors).map(err => err[0]).join('<br>');
+        msgDiv.classList.remove('hidden');
+      }
+    } catch (error) {
+      msgDiv.className = 'mt-4 p-4 rounded-md text-sm bg-red-500/10 text-red-400 border border-red-500';
+      msgDiv.textContent = 'Error de conexión. Inténtalo de nuevo.';
+      msgDiv.classList.remove('hidden');
+    } finally {
+      // Restaurar botón
+      btn.disabled = false;
+      btn.textContent = 'Enviar mensaje';
+    }
+  });
+</script>
 {% endblock %}
